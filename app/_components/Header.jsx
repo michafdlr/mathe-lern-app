@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 
 function Header() {
   return (
-    <div className='flex justify-between'>
+    <div className='flex justify-between p-3 shadow-sm'>
       <Image
       src={'/logo.webp'}
       width={100}

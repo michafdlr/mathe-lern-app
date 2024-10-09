@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google'
 import "./globals.css";
+import { ClerkProvider, GoogleOneTap } from '@clerk/nextjs';
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -18,7 +19,7 @@ const inter = Inter({
 })
 
 export const metadata = {
-  title: "Mathe Tutor",
+  title: "Mathetutor",
   description: "KI-unterstützte Mathe-Lern-App",
   icons: {
     icon: '/favicon.webp',
@@ -27,15 +28,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="de">
-      <head>
-        <link rel="icon" type="image/webp" href="/favicon.webp" />
-      </head>
-      <body
-        className={inter.className}
-      >
-        {children}
-      </body>
-    </html>
+      <html lang="de">
+        <head>
+          <link rel="icon" type="image/webp" href="/favicon.webp" />
+        </head>
+          <body
+            className={inter.className}
+          >
+            <ClerkProvider>
+              <GoogleOneTap />
+              {children}
+            </ClerkProvider>
+          </body>
+      </html>
   );
 }
