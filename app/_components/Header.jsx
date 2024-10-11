@@ -7,6 +7,7 @@ function Header() {
     <div className='flex justify-between p-3 shadow-sm'>
       <Image
       src={'/logo.webp'}
+      alt='logo'
       width={100}
       height={100}
       />

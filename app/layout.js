@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import "./globals.css";
 import { ClerkProvider, GoogleOneTap } from '@clerk/nextjs';
+import { deDE } from '@clerk/localizations'
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -35,7 +36,23 @@ export default function RootLayout({ children }) {
           <body
             className={inter.className}
           >
-            <ClerkProvider>
+            <ClerkProvider
+            localization={deDE}
+            appearance={{
+                variables: {
+                  colorPrimary: '#26b5c7',
+                  colorText: 'black',
+                  colorSuccess: 'rgb(100,200,100)',
+                  colorNeutral: '#ff4c4c',
+                  colorDanger: 'red',
+                  colorWarning: 'rgb(250,175,20)',
+                  colorTextSecondary: 'rgb(50,50,50)',
+                  borderRadius: '0.5rem',
+                },
+                layout: {
+                  logoImageUrl: '/logo.webp',
+                }
+              }}>
               <GoogleOneTap />
               {children}
             </ClerkProvider>
