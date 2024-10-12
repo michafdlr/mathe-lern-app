@@ -41,7 +41,7 @@ function SideBar() {
       <ul className='gap-y-4'>
         {Menu.map((item) => {
           return (
-            <Link href={item.path} key={item.id} className={`flex flex-row gap-x-2 p-5 text-gray-600 hover:bg-primary hover:rounded-md hover:text-secondary ${item.path == path && 'bg-primary rounded-md'}`}>
+            <Link href={item.path} key={item.id} className={`flex flex-row gap-x-2 p-5 text-gray-600 hover:bg-primary hover:rounded-md hover:text-secondary mb-2 ${item.path == path && 'bg-primary rounded-md'}`}>
               <div className='text-2xl'>
                 {item.icon}
               </div>

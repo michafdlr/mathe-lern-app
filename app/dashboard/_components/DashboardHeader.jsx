@@ -6,7 +6,7 @@ function DashboardHeader() {
   return (
     <div className='shadow-sm flex justify-between items-center p-2'>
       <Image
-        src={'/logo.png'}
+        src={'/logo-small.png'}
         alt='logo'
         width={30}
         height={30}

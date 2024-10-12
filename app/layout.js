@@ -1,4 +1,4 @@
-import { Inter } from 'next/font/google'
+import { Inter, Varela_Round } from 'next/font/google'
 import "./globals.css";
 import { ClerkProvider, GoogleOneTap } from '@clerk/nextjs';
 import { deDE } from '@clerk/localizations'
@@ -19,11 +19,17 @@ const inter = Inter({
   display: 'swap',
 })
 
+const varelaRound = Varela_Round({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: '400',
+})
+
 export const metadata = {
   title: "Mathetutor",
   description: "KI-unterstützte Mathe-Lern-App",
   icons: {
-    icon: '/favicon.webp',
+    icon: '/favicon-color.png',
   },
 };
 
@@ -31,10 +37,10 @@ export default function RootLayout({ children }) {
   return (
       <html lang="de">
         <head>
-          <link rel="icon" type="image/webp" href="/favicon.webp" />
+          <link rel="icon" type="image/png" href="/favicon-color.png" />
         </head>
           <body
-            className={inter.className}
+            className={varelaRound.className}
           >
             <ClerkProvider
             localization={deDE}
