@@ -10,6 +10,7 @@ function DashboardHeader() {
         alt='logo'
         width={30}
         height={30}
+        style={{width: 'auto', height: 'auto'}}
       />
       <UserButton />
     </div>

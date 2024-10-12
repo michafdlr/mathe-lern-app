@@ -36,6 +36,7 @@ function SideBar() {
         alt='logo'
         width={140}
         height={50}
+        style={{width: 'auto', height: 'auto'}}
       />
       <hr className='my-5'/>
       <ul className='gap-y-4'>

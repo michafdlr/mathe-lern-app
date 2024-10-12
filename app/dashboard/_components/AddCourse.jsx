@@ -8,9 +8,9 @@ function AddCourse() {
   const {user} = useUser();
   return (
     <div className='flex items-center justify-between'>
-      <div>
+      <div className='mx-2'>
         <h1 className='text-secondary md:text-3xl text-xl'>Hallo <span className='font-bold'>{user?.fullName}</span></h1>
-        <p className='text-sm'>
+        <p className='text-sm text-justify'>
           Erstelle einen neuen Lernpfad zu einem von dir gewählten Thema oder wähle einen bereits vorhandenen Lernpfad aus und übe weiter.
         </p>
       </div>
