@@ -38,12 +38,12 @@ function CreateCourse() {
             return (
               <div className='flex items-center' key={item.id}>
                 <div className='flex flex-col items-center mx-4 w-[50px] md:w-[100px]'>
-                  <div className={`bg-gray-400 p-3 rounded-full text-white ${activeIndex>=index && 'bg-[rgb(38,181,199)]'}`}>
+                  <div className={`bg-gray-400 p-3 rounded-full text-white ${activeIndex>=index && 'bg-cyan-500'}`}>
                     {item.icon}
                   </div>
                   <h2 className='hidden md:text-sm md:block'>{item.name}</h2>
                 </div>
-                {index != stepperOptions?.length-1 && <div className={`h-1 w-[50px] md:w-[100px] rounded-full lg:w-[170px] bg-gray-400 ${activeIndex>=index+1 && 'bg-[rgb(38,181,199)]'}`}></div>}
+                {index != stepperOptions?.length-1 && <div className={`h-1 w-[50px] md:w-[100px] rounded-full lg:w-[170px] bg-gray-400 ${activeIndex>=index+1 && 'bg-cyan-500'}`}></div>}
               </div>
             )
           })}
