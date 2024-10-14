@@ -1,10 +1,12 @@
 'use client'
 import { Button } from '@/components/ui/button';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { HiMiniRectangleStack, HiMiniCog8Tooth, HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
 import SelectSubject from './_components/SelectSubject';
 import Description from './_components/Description';
 import Options from './_components/Options';
+import { UserInputContext } from '../_context/UserInputContext';
+import { useContext } from 'react';
 
 function CreateCourse() {
   const stepperOptions = [
@@ -25,7 +27,13 @@ function CreateCourse() {
     }
   ]
 
+  const {userCourseInput, setUserCourseInput} = useContext(UserInputContext);
+
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    console.log(userCourseInput); //2:03:19
+  }, [userCourseInput])
 
   return (
     <>
