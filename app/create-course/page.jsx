@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import React, { useState } from 'react'
 import { HiMiniRectangleStack, HiMiniCog8Tooth, HiMiniAdjustmentsHorizontal } from "react-icons/hi2";
 import SelectSubject from './_components/SelectSubject';
+import Description from './_components/Description';
+import Options from './_components/Options';
 
 function CreateCourse() {
   const stepperOptions = [
@@ -13,7 +15,7 @@ function CreateCourse() {
     },
     {
       id: 2,
-      name: "Thema",
+      name: "Beschreibung",
       icon: <HiMiniAdjustmentsHorizontal />
     },
     {
@@ -38,12 +40,12 @@ function CreateCourse() {
             return (
               <div className='flex items-center' key={item.id}>
                 <div className='flex flex-col items-center mx-4 w-[50px] md:w-[100px]'>
-                  <div className={`bg-gray-400 p-3 rounded-full text-white ${activeIndex>=index && 'bg-cyan-500'}`}>
+                  <div className={`bg-gray-400 p-3 rounded-full text-white ${activeIndex>=index && 'bg-[#26b5c7]'}`}>
                     {item.icon}
                   </div>
                   <h2 className='hidden md:text-sm md:block'>{item.name}</h2>
                 </div>
-                {index != stepperOptions?.length-1 && <div className={`h-1 w-[50px] md:w-[100px] rounded-full lg:w-[170px] bg-gray-400 ${activeIndex>=index+1 && 'bg-cyan-500'}`}></div>}
+                {index != stepperOptions?.length-1 && <div className={`h-1 w-[50px] md:w-[100px] rounded-full lg:w-[170px] bg-gray-400 ${activeIndex>=index+1 && 'bg-[#26b5c7]'}`}></div>}
               </div>
             )
           })}
@@ -52,7 +54,9 @@ function CreateCourse() {
 
       <div className='px-10 md:px-20 lg:px-44 mt-8'>
       {/* Components */}
-        {activeIndex==0 ? <SelectSubject /> : null}
+        {activeIndex==0 ? <SelectSubject /> :
+        activeIndex == 1 ? <Description /> :
+        <Options />}
       {/* Next and Previous Button */}
         <div className='flex justify-between mt-10'>
           <Button
