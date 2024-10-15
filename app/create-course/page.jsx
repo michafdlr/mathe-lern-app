@@ -32,8 +32,22 @@ function CreateCourse() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    console.log(userCourseInput); //2:03:19
+    console.log(userCourseInput, activeIndex);
   }, [userCourseInput])
+
+  // Check if weiter Button enabled
+  const checkStatus = () => {
+    if (activeIndex == 0 && (userCourseInput?.subject == null || userCourseInput?.subject?.length == 0)) {
+      return true
+    }
+    if (activeIndex == 1 && (userCourseInput?.theme == null || userCourseInput?.theme?.length == 0)) {
+      return true
+    }
+    if (activeIndex == 2 && (userCourseInput?.difficulty == null || userCourseInput?.difficulty?.length == 0 || userCourseInput?.duration == null || userCourseInput?.duration?.length == 0 || userCourseInput?.videos == null || userCourseInput?.videos?.length == 0 || userCourseInput?.chapters == null || userCourseInput?.chapters?.length == 0)) {
+      return true
+    }
+    return false
+  }
 
   return (
     <>
@@ -77,14 +91,17 @@ function CreateCourse() {
               }}>
             Zurück
           </Button>
-          {activeIndex<stepperOptions?.length-1 && <Button disabled={activeIndex==stepperOptions?.length-1} onClick={() => {
+          {activeIndex<stepperOptions?.length-1 && <Button
+          disabled={checkStatus()}
+          onClick={() => {
             if (activeIndex<stepperOptions?.length-1) {
               setActiveIndex(activeIndex+1)
             }
             }}>
               Weiter
           </Button>}
-          {activeIndex == stepperOptions?.length-1 && <Button>
+          {activeIndex == stepperOptions?.length-1 && <Button
+          disabled={checkStatus()}>
             Vorschlag erstellen
           </Button>}
         </div>

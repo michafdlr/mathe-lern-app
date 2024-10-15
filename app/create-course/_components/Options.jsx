@@ -27,18 +27,20 @@ function Options() {
     <div className='px-10 md:px-20 lg:px-44'>
       <div className='grid md:grid-cols-2 grid-cols-1 md:gap-10 gap-5'>
         <div>
-          <Label htmlFor='difficulty'>
+          <label htmlFor='difficulty'>
             💪Schwierigkeitsgrad:
-          </Label>
+          </label>
           <Select
-          id='difficulty'
+          defaultValue={userCourseInput?.difficulty}
           onValueChange={(value) => {
             handleOptionsChange('difficulty', value)
           }}>
-            <SelectTrigger className="">
-              <SelectValue placeholder="Auswahl" />
+            <SelectTrigger className="" id='difficulty'>
+              <SelectValue
+              placeholder="Auswahl"
+              />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent >
               <SelectItem value="leicht">Leicht</SelectItem>
               <SelectItem value="mittel">Mittel</SelectItem>
               <SelectItem value="schwer">Schwer</SelectItem>
@@ -47,18 +49,18 @@ function Options() {
         </div>
 
         <div>
-          <Label htmlFor='duration'>
+          <label htmlFor='duration'>
             🕑Länge:
-          </Label>
+          </label>
           <Select
-          id='duration'
+          defaultValue={userCourseInput?.duration}
           onValueChange={(value) => {
             handleOptionsChange('duration', value)
           }}>
-            <SelectTrigger className="">
+            <SelectTrigger className="" id='duration'>
               <SelectValue placeholder="Auswahl" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent >
               <SelectItem value="1 Stunde">1  Stunde</SelectItem>
               <SelectItem value="2 Stunden">2 Stunden</SelectItem>
               <SelectItem value="mehr als 2 Stunden">Mehr als 2 Stunden</SelectItem>
@@ -71,11 +73,11 @@ function Options() {
             📺Videos einbeziehen:
           </Label>
           <Select
-          id='video'
+          defaultValue={userCourseInput?.videos}
           onValueChange={(value) => {
             handleOptionsChange('videos', value)
           }}>
-            <SelectTrigger className="">
+            <SelectTrigger className="" id='video'>
               <SelectValue placeholder="Auswahl" />
             </SelectTrigger>
             <SelectContent>
@@ -86,12 +88,14 @@ function Options() {
         </div>
 
         <div>
-          <Label htmlFor='chapters'>
+          <label htmlFor='chapters'>
             ⚙️Kapitelanzahl:
-          </Label>
+          </label>
           <Input
+          id='chapters'
           type='number'
           placeholder='2'
+          defaultValue={userCourseInput?.chapters}
           onChange={(event) => {
             handleOptionsChange('chapters', event.target.value) //2:08
           }}/>

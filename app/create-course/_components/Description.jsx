@@ -27,6 +27,7 @@ function Description() {
         id='theme'
         type='text'
         placeholder={'Nullstellenberechnung'}
+        defaultValue={userCourseInput?.theme}
         onChange={(event) => {
           handleDescriptionChange('theme', event.target.value)
         }}/>
@@ -35,11 +36,13 @@ function Description() {
       {/* description */}
       <div className='mt-8'>
         <Label htmlFor='description'>
-          📝Gib an, was bei der Erstellung des Lernpfads berücksichtigt, eingebaut und speziell beachtet werden soll (optional):
+          📝Gib an, was bei der Erstellung des Lernpfads berücksichtigt und speziell beachtet werden soll (optional):
         </Label>
         <Textarea
         id='description'
+        rows='5'
         placeholder='Erstelle einen Kurs zum obigen Thema, dabei soll zunächst erklärt werden, was Nullstellen sind, wie diese berechnet werden können und Anwendungsbeispiele gegeben werden. Zu jedem Kapitel sollen Übungsaufgaben erstellt werden...'
+        defaultValue={userCourseInput?.description}
         onChange={(event) => {
           handleDescriptionChange('description', event.target.value)
         }}/>
