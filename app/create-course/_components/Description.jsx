@@ -21,12 +21,12 @@ function Description() {
       {/* topic input */}
       <div className='mt-5'>
         <Label htmlFor="theme">
-          🔍Unterthema, zu dem ein Lernpfad erstellt werden soll (z.B. Nullstellen, Extrempunkte, Integralrechnung):
+          🔍Unterthema, zu dem ein Lernpfad erstellt werden soll (z.B. Extrempunkte, Integralrechnung, Binomialverteilung...):
         </Label>
         <Input
         id='theme'
         type='text'
-        placeholder={'Nullstellenberechnung'}
+        placeholder={'Kurvenuntersuchung'}
         defaultValue={userCourseInput?.theme}
         onChange={(event) => {
           handleDescriptionChange('theme', event.target.value)
@@ -41,7 +41,7 @@ function Description() {
         <Textarea
         id='description'
         rows='5'
-        placeholder='Erstelle einen Kurs zum obigen Thema, dabei soll zunächst erklärt werden, was Nullstellen sind, wie diese berechnet werden können und Anwendungsbeispiele gegeben werden. Zu jedem Kapitel sollen Übungsaufgaben erstellt werden...'
+        placeholder='Zu jedem Kapitel sollen Aufgaben vorgerechnet und ähnliche Übungsaufgaben erstellt werden...'
         defaultValue={userCourseInput?.description}
         onChange={(event) => {
           handleDescriptionChange('description', event.target.value)
