@@ -9,6 +9,10 @@ import { UserInputContext } from '../_context/UserInputContext';
 import { useContext } from 'react';
 import { GenerateCourseLayout } from '@/configs/AIModel';
 import LoadingDialog from './_components/LoadingDialog';
+import { db } from '@/configs/db';
+import { CourseList } from '@/configs/schema';
+import uuid4 from 'uuid4';
+import { useUser } from '@clerk/nextjs';
 
 function CreateCourse() {
   const stepperOptions = [
@@ -35,6 +39,8 @@ function CreateCourse() {
 
   const [loading, setLoading] = useState(false);
 
+  const {user} = useUser();
+
   useEffect(() => {
     console.log(userCourseInput, activeIndex);
   }, [userCourseInput])
@@ -56,12 +62,30 @@ function CreateCourse() {
   const generateCourseLayout = async () => {
     setLoading(true);
     const BASIC_PROMPT = 'Erzeuge zu den Angaben unten einen Lernkurs mit den folgenden Details auf Deutsch. \nDer Kurs soll einen Kursnamen, eine Beschreibung und eine angegebene Anzahl an Kapiteln haben, die jeweils einen Namen, eine Inhaltsbeschreibung und eine Dauer beinhalten sollen. Das Oberthema ist stets Mathematik.';
-    const USER_INPUT_PROMPT = `Oberthema: '${userCourseInput?.subject}'\nThema: '${userCourseInput?.theme}'\nBeschreibung (optional): '${userCourseInput?.description}'\nSchwierigkeit: '${userCourseInput?.difficulty}'\nLänge: '${userCourseInput?.duration}'\nAnzahl der Kapitel: '${userCourseInput?.chapters}'\nAusgabe im JSON Format`;
+    const USER_INPUT_PROMPT = `Oberthema: '${userCourseInput?.subject}'\nThema: '${userCourseInput?.theme}'\nBeschreibung (optional): '${userCourseInput?.description != null ? userCourseInput.description : ''}'\nSchwierigkeit: '${userCourseInput?.difficulty}'\nLänge: '${userCourseInput?.duration}'\nAnzahl der Kapitel: '${userCourseInput?.chapters}'\nAusgabe im JSON Format`;
     const FINAL_PROMPT = BASIC_PROMPT + USER_INPUT_PROMPT;
     console.log(FINAL_PROMPT);
     const result = await GenerateCourseLayout.sendMessage(FINAL_PROMPT);
     console.log(result.response.text());
     console.log(JSON.parse(result.response.text()));
+    setLoading(false);
+    saveCourseLayoutInDB(JSON.parse(result.response.text()));
+  }
+
+  const saveCourseLayoutInDB = async (courseLayout) => {
+    let id = uuid4();
+    setLoading(true);
+    const result = await db.insert(CourseList).values({
+      courseID: id,
+      subject: userCourseInput?.subject,
+      theme: userCourseInput?.theme,
+      difficulty: userCourseInput?.difficulty,
+      courseOutput: courseLayout,
+      createdBy: user?.primaryEmailAddress?.emailAddress,
+      userName: user?.fullName,
+      userProfileImage: user?.imageUrl
+    });
+    console.log(result);
     setLoading(false);
   }
   return (
