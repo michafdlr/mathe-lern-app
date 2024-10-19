@@ -13,6 +13,7 @@ import { db } from '@/configs/db';
 import { CourseList } from '@/configs/schema';
 import uuid4 from 'uuid4';
 import { useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 function CreateCourse() {
   const stepperOptions = [
@@ -40,6 +41,8 @@ function CreateCourse() {
   const [loading, setLoading] = useState(false);
 
   const {user} = useUser();
+
+  const router = useRouter();
 
   useEffect(() => {
     console.log(userCourseInput, activeIndex);
@@ -80,6 +83,7 @@ function CreateCourse() {
       subject: userCourseInput?.subject,
       theme: userCourseInput?.theme,
       difficulty: userCourseInput?.difficulty,
+      includeVideo: userCourseInput?.videos,
       courseOutput: courseLayout,
       createdBy: user?.primaryEmailAddress?.emailAddress,
       userName: user?.fullName,
@@ -87,6 +91,7 @@ function CreateCourse() {
     });
     console.log(result);
     setLoading(false);
+    router.replace('/create-course/'+id);
   }
   return (
     <>
