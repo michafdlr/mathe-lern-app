@@ -1,16 +1,28 @@
 import { Button } from '@/components/ui/button';
 // import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { HiOutlineAcademicCap } from "react-icons/hi2";
+import EditCourseInfo from './EditCourseInfo';
 
 function BasicCourseInfo({ course }) {
+  const [updatedCourse, setUpdatedCourse] = useState(course);
+
+  useEffect(() => {
+    setUpdatedCourse(course);
+  }, [course]);
+
+  const handleCourseUpdate = (updatedCourse) => {
+    setUpdatedCourse(updatedCourse);
+  };
   return (
     <div className='mt-5 p-8 border shadow-md rounded-xl'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
         <div>
-          <h3 className='text-xl md:text-2xl text-primary'>{course?.theme}</h3>
+          <h3 className='text-xl md:text-2xl text-primary'>
+            {updatedCourse?.theme} {updatedCourse && <EditCourseInfo course={updatedCourse} onCourseUpdate={handleCourseUpdate}/>}
+          </h3>
           <p className='mt-2 text-justify text-sm text-gray-500'>
-            {course?.courseOutput?.beschreibung}
+            {updatedCourse?.courseOutput?.beschreibung}
           </p>
           <h3 className='font-medium mt-2 flex flex-row gap-2 items-center text-primary'><HiOutlineAcademicCap /> {course?.subject}</h3>
           <Button className='w-full mt-4'>Start</Button>
