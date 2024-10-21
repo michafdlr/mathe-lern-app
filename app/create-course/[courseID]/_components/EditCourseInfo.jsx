@@ -20,7 +20,7 @@ import { eq } from 'drizzle-orm';
 
 
 
-function EditCourseInfo({ course, onCourseUpdate }) {
+function EditCourseInfo({ course, onCourseUpdate, refreshData }) {
   const [themeName, setThemeName] = useState();
   const [description, setDescription] = useState();
 
@@ -44,7 +44,8 @@ function EditCourseInfo({ course, onCourseUpdate }) {
       theme: updatedCourse.theme,
       courseOutput: updatedCourse.courseOutput
     }).where(eq(updatedCourse.courseID, CourseList.courseID)).returning({id: CourseList.id});
-    onCourseUpdate(updatedCourse); //3:42:40
+    onCourseUpdate(updatedCourse);
+    refreshData(true);
   }
 
   return (

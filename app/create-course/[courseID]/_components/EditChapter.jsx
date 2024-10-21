@@ -19,7 +19,7 @@ import { db } from '@/configs/db';
 import { CourseList } from '@/configs/schema';
 import { eq } from 'drizzle-orm';
 
-function EditChapter({ course, onCourseUpdate, index }) {
+function EditChapter({ course, onCourseUpdate, index, refreshData }) {
   const [chapterName, setChapterName] = useState();
   const [description, setDescription] = useState();
   const [duration, setDuration] = useState();
@@ -45,6 +45,7 @@ function EditChapter({ course, onCourseUpdate, index }) {
       courseOutput: updatedCourse.courseOutput
     }).where(eq(updatedCourse.courseID, CourseList.courseID)).returning({id: CourseList.id});
     onCourseUpdate(updatedCourse); //3:42:40
+    refreshData(true);
   }
   return (
     <Dialog>

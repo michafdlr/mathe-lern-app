@@ -26,17 +26,16 @@ function CourseLayout({ params }) {
     console.log(result[0]);
     setCourse(result[0]);
   }
-  // 3:03:16
   return (
     <div className='mt-10 px-7 md:px-20 lg:px-44'>
       <h2 className='md:text-3xl text-xl font-bold text-secondary text-center'>Lernpfad Vorschlag</h2>
 
       {/* Basic Info */}
-      <BasicCourseInfo course={course} />
+      <BasicCourseInfo course={course} refreshData={() => getCourse()}/>
       {/* Course detail */}
       <CourseDetail course={course} />
       {/* List of Chapters */}
-      <ChaptersList course={course}/>
+      <ChaptersList course={course} refreshData={() => getCourse()}/>
       {/* Create Course button */}
     </div>
   )

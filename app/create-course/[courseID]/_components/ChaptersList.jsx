@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react'
 import { HiClock, HiMiniCheckCircle } from "react-icons/hi2";
 import EditChapter from './EditChapter';
 
-function ChaptersList({ course }) {
+function ChaptersList({ course, refreshData }) {
   const [updatedCourse, setUpdatedCourse] = useState(course);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function ChaptersList({ course }) {
                 <h3 className='text-md md:text-2xl md:pt-1'>
                   {chapter?.name}
                 </h3>
-                {updatedCourse && <EditChapter course={course} onCourseUpdate={handleCourseUpdate} index={index}/> }
+                {updatedCourse && <EditChapter course={course} onCourseUpdate={handleCourseUpdate} index={index} refreshData={() => refreshData(true)}/> }
               </div>
             <p className='text-xs text-justify md:text-md text-gray-500'>
               {chapter?.beschreibung}

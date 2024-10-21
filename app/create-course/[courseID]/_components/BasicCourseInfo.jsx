@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { HiOutlineAcademicCap } from "react-icons/hi2";
 import EditCourseInfo from './EditCourseInfo';
 
-function BasicCourseInfo({ course }) {
+function BasicCourseInfo({ course, refreshData }) {
   const [updatedCourse, setUpdatedCourse] = useState(course);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ function BasicCourseInfo({ course }) {
       <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
         <div>
           <h3 className='text-xl md:text-2xl text-primary'>
-            {updatedCourse?.theme} {updatedCourse && <EditCourseInfo course={updatedCourse} onCourseUpdate={handleCourseUpdate}/>}
+            {updatedCourse?.theme} {updatedCourse && <EditCourseInfo course={updatedCourse} onCourseUpdate={handleCourseUpdate} refreshData={() => refreshData(true)}/>}
           </h3>
           <p className='mt-2 text-justify text-sm text-gray-500'>
             {updatedCourse?.courseOutput?.beschreibung}
