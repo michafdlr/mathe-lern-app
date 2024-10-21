@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import { HiClock, HiMiniCheckCircle } from "react-icons/hi2";
+import EditChapter from './EditChapter';
 
 function ChaptersList({ course }) {
-  //3:29:14
+  const [updatedCourse, setUpdatedCourse] = useState(course);
+
+  useEffect(() => {
+    setUpdatedCourse(course);
+  }, [course]);
+
+  const handleCourseUpdate = (updatedCourse) => {
+    setUpdatedCourse(updatedCourse);
+  };
   return (
     <div className='mt-5 pb-10'>
       <h2 className='md:text-3xl text-2xl text-center text-primary'>Kapitel</h2>
-      {course?.courseOutput?.kapitel?.map((chapter, index) => {
+      {updatedCourse?.courseOutput?.kapitel?.map((chapter, index) => {
         return (
           <div className='mt-2 flex items-center justify-between gap-3 border shadow-sm rounded-lg p-5' key={chapter?.name}>
             <div className='flex flex-col gap-2 p-5'>
@@ -15,6 +24,7 @@ function ChaptersList({ course }) {
                 <h3 className='text-md md:text-2xl md:pt-1'>
                   {chapter?.name}
                 </h3>
+                {updatedCourse && <EditChapter course={course} onCourseUpdate={handleCourseUpdate} index={index}/> }
               </div>
             <p className='text-xs text-justify md:text-md text-gray-500'>
               {chapter?.beschreibung}
