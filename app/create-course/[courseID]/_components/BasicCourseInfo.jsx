@@ -3,6 +3,11 @@ import { Button } from '@/components/ui/button';
 import React, { useEffect, useState } from 'react'
 import { HiOutlineAcademicCap } from "react-icons/hi2";
 import EditCourseInfo from './EditCourseInfo';
+import { storage } from '@/configs/firebaseConfig';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { db } from '@/configs/db';
+import { CourseList } from '@/configs/schema';
+import { eq } from 'drizzle-orm';
 
 function BasicCourseInfo({ course, refreshData }) {
   const [updatedCourse, setUpdatedCourse] = useState(course);
@@ -14,6 +19,25 @@ function BasicCourseInfo({ course, refreshData }) {
   const handleCourseUpdate = (updatedCourse) => {
     setUpdatedCourse(updatedCourse);
   };
+
+  const [selectedFile, setSelectedFile] = useState();
+  const onFileUpload = async (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(URL.createObjectURL(file));
+    const fileName = Date.now()+".jpg"
+    const storageReference = ref(storage, 'matheimages/'+fileName);
+    await uploadBytes(storageReference, file).then((snapshot) =>{
+      console.log(`Fileupload of ${file} complete`);
+    }).then(resp => {
+      getDownloadURL(storageReference)
+        .then(async(downloadUrl)=> {
+          console.log(downloadUrl);
+          await db.update(CourseList).set({
+            courseBanner: downloadUrl
+          }).where(eq(updatedCourse?.courseID, CourseList.courseID)) //4:11:05
+        });
+    });
+  }
   return (
     <div className='mt-5 p-8 border shadow-md rounded-xl'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
@@ -28,8 +52,12 @@ function BasicCourseInfo({ course, refreshData }) {
           <Button className='w-full mt-4'>Start</Button>
         </div>
         <div className='flex justify-center'>
-          <img src="https://fakeimg.pl/200x100/?text=Bild" alt="placeholder image"
-          className='w-full rounded-xl border-black border-2 object-cover'/>
+          <label htmlFor="upload-image">
+            <img src={selectedFile?selectedFile:"https://fakeimg.pl/400x250/?text=Bild"} alt="placeholder image"
+            className={`w-full rounded-xl border-black border-2 ${selectedFile?'object-scale-down': 'object-fill'} cursor-pointer h-[250px]`}/>
+          </label>
+          <input type="file" id='upload-image' className='opacity-0 w-0 h-0'
+          onChange={onFileUpload}/>
           {/* <Image
           src={"/placeholder.png"}
           width={200}
