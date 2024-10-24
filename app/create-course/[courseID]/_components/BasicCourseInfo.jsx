@@ -53,8 +53,8 @@ function BasicCourseInfo({ course, refreshData }) {
         </div>
         <div className='flex justify-center'>
           <label htmlFor="upload-image">
-            <img src={selectedFile?selectedFile:"https://fakeimg.pl/400x250/?text=Bild"} alt="placeholder image"
-            className={`w-full rounded-xl border-black border-2 ${selectedFile?'object-scale-down': 'object-fill'} cursor-pointer h-[250px]`}/>
+            <img src={selectedFile?selectedFile:course?.courseBanner} alt="Kursbild"
+            className='w-full rounded-xl border-black border-2 object-scale-down cursor-pointer h-[250px]'/>
           </label>
           <input type="file" id='upload-image' className='opacity-0 w-0 h-0'
           onChange={onFileUpload}/>
