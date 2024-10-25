@@ -1,7 +1,7 @@
 //2:54:50
 'use client'
 import { db } from '@/configs/db';
-import { CourseList } from '@/configs/schema';
+import { Chapters, CourseList } from '@/configs/schema';
 import { useUser } from '@clerk/nextjs';
 import { and, eq } from 'drizzle-orm';
 import React, { useEffect, useState } from 'react'
@@ -11,11 +11,14 @@ import ChaptersList from './_components/ChaptersList';
 import { Button } from '@/components/ui/button';
 import { generateChapterContent_AI } from '@/configs/AIModel';
 import LoadingDialog from '../_components/LoadingDialog';
+import service from '@/configs/service';
+import { useRouter } from 'next/navigation';
 
 function CourseLayout({ params }) {
   const {user} = useUser();
   const [course, setCourse] = useState([]);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     params&&getCourse();
@@ -36,19 +39,31 @@ function CourseLayout({ params }) {
     setLoading(true);
     const chapters = course?.courseOutput?.kapitel;
     chapters.forEach(async (chapter, index) => {
-      const PROMPT = `Erkläre detailliert die Konzepte, Methoden und Vorgehensweisen mit Übungsaufgaben und durchdachten Lösungen zum Thema: '${course?.theme}', Kapitel: '${chapter.name}', und unter Berücksichtigung der Kapitelbeschreibung: '${chapter.beschreibung}' sowie einer Kapitellänge von etwa '${chapter.dauer}'. Gib deine Ergebnisse im JSON Format mit Feldnamen 'title', 'detailedDescription', 'excersises' als Liste und 'links' als Liste. Jeder der Feldnamen soll nur einmal vorkommen und die Ausageb soll mit dem JSON Formatierer in JavaScript geparsed werden können, es ist also in mathematischen Formeln auf escape-characters zu achten. Stelle sicher, dass mathematische Formeln in HTML gerendert werden können und schön aussehen.`
+      const PROMPT = `Erkläre detailliert die Konzepte, Methoden und Vorgehensweisen mit Übungsaufgaben und durchdachten Lösungen zum Thema: '${course?.theme}', Kapitel: '${chapter.name}', und unter Berücksichtigung der Kapitelbeschreibung: '${chapter.beschreibung}' sowie einer Kapitellänge von etwa '${chapter.dauer}'. Gib deine Ergebnisse im JSON Format mit Feldnamen 'title', 'detailedDescription', 'excersises' als Liste und 'links' als Liste. Jeder der Feldnamen soll nur einmal vorkommen und die Ausageb soll mit dem JSON Formatierer in JavaScript geparsed werden können, es ist also in mathematischen Formeln auf escape-characters zu achten. Stelle sicher, dass mathematische Formeln in HTML gerendert werden können und schön aussehen. Stelle immer sicher, dass das JSON geparsed werden kann!!!`
       // console.log(PROMPT);
-      if (index === 0) {
-        try {
-          const result = await generateChapterContent_AI.sendMessage(PROMPT);
-          console.log(result?.response?.text());
-          console.log(JSON.parse(result?.response?.text()));
-          setLoading(false); //4:21:21
-        } catch (error) {
-          console.log('error: ', error);
-          setLoading(false);
-        }
+      try {
+        let videoId;
+        service.getVideos(course?.theme + chapter.name).then(resp => {
+          videoId = resp[0].id.videoId;
+          console.log(resp[0].id.videoId);
+        })
+        const result = await generateChapterContent_AI.sendMessage(PROMPT);
+        console.log(result?.response?.text());
+        console.log(JSON.parse(result?.response?.text()));
+        const content = JSON.parse(result?.response?.text());
+        setLoading(false); //4:21:21
+        await db.insert(Chapters).values({
+          chapterID: index,
+          courseID: course?.courseID,
+          content: content,
+          videoID: videoId
+        });
+
+      } catch (error) {
+        console.log('error: ', error);
+        setLoading(false);
       }
+      router.replace('/create-course/'+course?.courseID+'/finish')
     });
   }
   return (
