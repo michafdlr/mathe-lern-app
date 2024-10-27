@@ -18,6 +18,7 @@ function CourseLayout({ params }) {
   const {user} = useUser();
   const [course, setCourse] = useState([]);
   const [loading, setLoading] = useState(false);
+  // const [calls, setCalls] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,6 +36,29 @@ function CourseLayout({ params }) {
     setCourse(result[0]);
   }
 
+  // const sleep = (t) => new Promise(r => setTimeout(r, t))
+  // const callPrompt = async (prompt) => {
+  //   if (calls < 5) {
+  //     setCalls(calls+1);
+  //     try {
+  //       const result = await generateChapterContent_AI.sendMessage(prompt);
+  //       const content = JSON.parse(result?.response?.text());
+  //       console.log('success generating chapter content');
+  //       return content
+  //     } catch (error) {
+  //       console.log('failed with error ', error, 5-calls, ' calls left.');
+  //       await sleep(2000);
+  //       callPrompt(prompt);
+  //     }
+  //   }
+  //   return JSON.parse(JSON.stringify({
+  //     title: "",
+  //     detailedDescription: "",
+  //     excersises: [],
+  //     links: []
+  //   }))
+  // }
+
   const generateChapterContent = () => {
     setLoading(true);
     const chapters = course?.courseOutput?.kapitel;
@@ -44,25 +68,38 @@ function CourseLayout({ params }) {
       try {
         let videoId;
         service.getVideos(course?.theme + chapter.name).then(resp => {
-          videoId = resp[0].id.videoId;
-          console.log(resp[0].id.videoId);
+          videoId = resp[0]?.id?.videoId;
+          console.log(videoId);
         })
         const result = await generateChapterContent_AI.sendMessage(PROMPT);
-        console.log(result?.response?.text());
-        console.log(JSON.parse(result?.response?.text()));
-        const content = JSON.parse(result?.response?.text());
-        setLoading(false); //4:21:21
+        let content;
+        try {
+          content = JSON.parse(result?.response?.text());
+        } catch (error) {
+          content = JSON.parse(JSON.stringify({
+            title: chapter.name,
+            detailedDescription: "",
+            excersises: [],
+            links: []
+          }));
+          console.log(error, 'instead using', content);
+        }
+
         await db.insert(Chapters).values({
           chapterID: index,
           courseID: course?.courseID,
           content: content,
           videoID: videoId
         });
-
+        setLoading(false);
       } catch (error) {
         console.log('error: ', error);
         setLoading(false);
       }
+      await db.update(CourseList).set({
+        published: true
+      }).where(eq(course?.courseID, CourseList.courseID));
+
       router.replace('/create-course/'+course?.courseID+'/finish')
     });
   }

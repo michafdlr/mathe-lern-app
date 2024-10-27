@@ -7,8 +7,9 @@ const getVideos = async (query) => {
     part: "snippet",
     maxResults: 1,
     q: query,
+    type: "video",
     relevanceLanguage: "de",
-    key: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY //4:29:09
+    key: process.env.NEXT_PUBLIC_YOUTUBE_API_KEY
   }
 
   const resp = await axios.get(YOUTUBE_BASE_URL+'/search', {params});

@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-// import Image from 'next/image'
+import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { HiOutlineAcademicCap } from "react-icons/hi2";
 import EditCourseInfo from './EditCourseInfo';
@@ -53,8 +53,15 @@ function BasicCourseInfo({ course, refreshData }) {
         </div>
         <div className='flex justify-center'>
           <label htmlFor="upload-image">
-            <img src={selectedFile?selectedFile:course?.courseBanner} alt="Kursbild"
-            className='w-full rounded-xl border-black border-2 object-scale-down cursor-pointer h-[250px]'/>
+            <Image
+            src={selectedFile || course?.courseBanner || '/placeholder.png'}
+            priority={true}
+            width={300}
+            height={250}
+            style={{width: 'auto', height:'250px'}}
+            alt="Kursbild"
+            className='w-full rounded-xl border-black border-2 object-scale-down cursor-pointer h-[250px]'
+            />
           </label>
           <input type="file" id='upload-image' className='opacity-0 w-0 h-0'
           onChange={onFileUpload}/>
