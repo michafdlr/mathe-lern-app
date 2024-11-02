@@ -78,7 +78,7 @@ function CourseLayout({ params }) {
         } catch (error) {
           content = JSON.parse(JSON.stringify({
             title: chapter.name,
-            detailedDescription: "",
+            detailedDescription: [],
             excersises: [],
             links: []
           }));

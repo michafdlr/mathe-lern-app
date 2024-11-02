@@ -8,6 +8,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db } from '@/configs/db';
 import { CourseList } from '@/configs/schema';
 import { eq } from 'drizzle-orm';
+import Link from 'next/link';
 
 function BasicCourseInfo({ course, refreshData, edit=true }) {
   const [updatedCourse, setUpdatedCourse] = useState(course);
@@ -49,7 +50,12 @@ function BasicCourseInfo({ course, refreshData, edit=true }) {
             {updatedCourse?.courseOutput?.beschreibung}
           </p>
           <h3 className='font-medium mt-2 flex flex-row gap-2 items-center text-primary'><HiOutlineAcademicCap /> {course?.subject}</h3>
-          {!edit && <Button className='w-full mt-4'>Start</Button>}
+          {
+            !edit &&
+            <Link href={"/course/"+course?.courseID+"/start"}>
+              <Button className='w-full mt-4'>Start</Button>
+            </Link>
+          }
         </div>
         <div className='flex justify-center'>
           <label htmlFor="upload-image">
