@@ -124,6 +124,4 @@ function CourseLayout({ params }) {
   )
 }
 
-//5:19:21
-
 export default CourseLayout

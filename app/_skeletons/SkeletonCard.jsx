@@ -1,33 +1,34 @@
-import Image from 'next/image'
-import React from 'react'
+import { Skeleton } from "@/components/ui/skeleton"
 import { HiBookOpen, HiChartBar, HiEllipsisVertical } from "react-icons/hi2";
-import DropdownOption from './DropdownOption';
-import { db } from '@/configs/db';
-import { Chapters, CourseList } from '@/configs/schema';
-import { eq } from 'drizzle-orm';
-import Link from 'next/link';
-import { SkeletonCard } from '@/app/_skeletons/SkeletonCard';
 
-function CourseCard({ course, refreshData }) {
-  if (!course || !course.courseID) {
-    return <SkeletonCard/>
-  }
-  const handleOnDelete = async () => {
-    const resultList = await db.delete(CourseList)
-    .where(eq(CourseList.courseID, course?.courseID))
-    .returning({courseID: CourseList.courseID});
-
-    const resultChapters = await db.delete(Chapters)
-    .where(eq(Chapters.courseID, course?.courseID))
-    .returning({chapterID: Chapters.chapterID});
-
-    if (resultList && resultChapters) {
-      refreshData();
-    }
-  }
-
+export function SkeletonCard() {
   return (
     <div className='border-2 rounded-lg p-2 shadow-sm'>
+      <Skeleton className="h-[150px] w-full rounded-lg bg-slate-200" />
+      <div className="p-2">
+        <h2 className='font-bold text-lg flex justify-between items-center'>
+          <Skeleton className="h-6 w-1/2 bg-slate-200" />
+          <HiEllipsisVertical className='flex-none'/>
+        </h2>
+
+        <div className='flex justify-between mt-2'>
+          <h2 className='flex gap-2 items-center p-1 bg-cyan-100 rounded-md text-sm'>
+            <HiBookOpen />
+            <Skeleton className="h-6 w-[20px] bg-slate-200"/> Kapitel
+          </h2>
+
+          <h2 className='flex gap-2 items-center p-1 bg-cyan-100 rounded-md text-sm'>
+            <HiChartBar />
+            <Skeleton className="h-6 w-[50px] bg-slate-200"/>
+          </h2>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
+{/* <div className='border-2 rounded-lg p-2 shadow-sm'>
       <Link href={'/course/'+course?.courseID}>
         <Image
         src={course?.courseBanner || "/placeholder.png"} //5:00:52
@@ -61,8 +62,4 @@ function CourseCard({ course, refreshData }) {
           </h2>
         </div>
       </div>
-    </div>
-  )
-}
-
-export default CourseCard
+    </div> */}

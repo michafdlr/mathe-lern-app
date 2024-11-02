@@ -1,12 +1,14 @@
 'use client'
+import { UserCourseListContext } from "@/app/_context/UserCourseListContext";
 import { Progress } from "@/components/ui/progress"
 import Image from 'next/image'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react'
+import React, { useContext } from 'react'
 import { HiHome, HiMiniArrowLeftOnRectangle, HiNewspaper } from "react-icons/hi2";
 
 function SideBar() {
+  const {userCourseList, setUserCourseList} = useContext(UserCourseListContext);
   const Menu = [
     {
       id: 1,
@@ -28,7 +30,6 @@ function SideBar() {
     }
   ]
   const path = usePathname();
-
   return (
     <div className='fixed md:w-64 h-full p-5 shadow-md'>
       <Image
@@ -52,9 +53,9 @@ function SideBar() {
         })}
       </ul>
       <div className="absolute bottom-10 w-[80%]">
-        <Progress value={20} className=' shadow-inner border-solid border-2 border-gray-400'/>
+        <Progress value={userCourseList?.length*10} className=' shadow-inner border-solid border-2 border-gray-400'/>
         <h2 className="text-center text-gray-600 text-sm">
-          2 von 10 Kursen beendet
+          {userCourseList?.length} von 10 Lernpfaden erstellt
         </h2>
       </div>
     </div>

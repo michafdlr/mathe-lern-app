@@ -9,7 +9,7 @@ import { db } from '@/configs/db';
 import { CourseList } from '@/configs/schema';
 import { eq } from 'drizzle-orm';
 
-function BasicCourseInfo({ course, refreshData }) {
+function BasicCourseInfo({ course, refreshData, edit=true }) {
   const [updatedCourse, setUpdatedCourse] = useState(course);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ function BasicCourseInfo({ course, refreshData }) {
           console.log(downloadUrl);
           await db.update(CourseList).set({
             courseBanner: downloadUrl
-          }).where(eq(updatedCourse?.courseID, CourseList.courseID)) //4:11:05
+          }).where(eq(updatedCourse?.courseID, CourseList.courseID))
         });
     });
   }
@@ -43,13 +43,13 @@ function BasicCourseInfo({ course, refreshData }) {
       <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
         <div>
           <h3 className='text-xl md:text-2xl text-primary'>
-            {updatedCourse?.theme} {updatedCourse && <EditCourseInfo course={updatedCourse} onCourseUpdate={handleCourseUpdate} refreshData={() => refreshData(true)}/>}
+            {updatedCourse?.theme} {updatedCourse && edit && <EditCourseInfo course={updatedCourse} onCourseUpdate={handleCourseUpdate} refreshData={() => refreshData(true)}/>}
           </h3>
           <p className='mt-2 text-justify text-sm text-gray-500'>
             {updatedCourse?.courseOutput?.beschreibung}
           </p>
           <h3 className='font-medium mt-2 flex flex-row gap-2 items-center text-primary'><HiOutlineAcademicCap /> {course?.subject}</h3>
-          <Button className='w-full mt-4'>Start</Button>
+          {!edit && <Button className='w-full mt-4'>Start</Button>}
         </div>
         <div className='flex justify-center'>
           <label htmlFor="upload-image">
@@ -60,19 +60,11 @@ function BasicCourseInfo({ course, refreshData }) {
             height={250}
             style={{width: 'auto', height:'250px'}}
             alt="Kursbild"
-            className='w-full rounded-xl border-black border-2 object-scale-down cursor-pointer h-[250px]'
+            className={`w-full rounded-xl border-black border-2 object-scale-down ${edit?'cursor-pointer': 'cursor-default'} h-[250px]`}
             />
           </label>
           <input type="file" id='upload-image' className='opacity-0 w-0 h-0'
-          onChange={onFileUpload}/>
-          {/* <Image
-          src={"/placeholder.png"}
-          width={200}
-          height={200}
-          alt='placeholder image'
-          // style={{width: "250px", height: "200px"}}
-          className='w-full rounded-xl border-2 border-black h-[200px] object-cover'
-          /> */}
+          onChange={onFileUpload} disabled={!edit}/>
         </div>
       </div>
     </div>
