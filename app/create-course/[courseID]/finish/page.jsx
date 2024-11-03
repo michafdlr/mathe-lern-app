@@ -15,6 +15,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 
 function FinishScreen({ params }) {
@@ -50,10 +52,10 @@ function FinishScreen({ params }) {
       <h2 className='text-xl md:text-2xl text-center my-3 font-bold text-secondary'>
         Dein Kurs wurde erstellt! 🥳
       </h2>
-      <BasicCourseInfo course={course} refreshData={() => console.log()}/>
+      <BasicCourseInfo course={course} refreshData={() => console.log()} edit={false}/>
       <h2 className='mt-3'>Kurs-URL:</h2>
       <h2 className='flex justify-between items-center text-gray-500 border rounded-md p-2'>
-        {process.env.NEXT_PUBLIC_HOST_NAME}/course/view/{course?.courseID}
+        {process.env.NEXT_PUBLIC_HOST_NAME}/course/{course?.courseID}/start
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
@@ -61,7 +63,7 @@ function FinishScreen({ params }) {
               className='h-5 w-5 flex-none cursor-pointer hover:brightness-125'
               onClick={async () => {
                 handleClick();
-                await navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_HOST_NAME}/course/view/${course?.courseID}`)
+                await navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_HOST_NAME}/course/${course?.courseID}/start`)
               }}
               />
               {showMessage && (<div className='text-xs absolute bg-primary border rounded-sm text-white p-1 cursor-default'>Link kopiert</div>)}
@@ -72,6 +74,9 @@ function FinishScreen({ params }) {
           </Tooltip>
         </TooltipProvider>
       </h2>
+      <Link href={'/dashboard'}>
+          <Button className='w-full mt-4'>Zum Dashboard</Button>
+      </Link>
     </div>
   )
 }
