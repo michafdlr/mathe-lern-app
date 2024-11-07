@@ -11,7 +11,19 @@ export default function renderContent(content) {
     if (!text) return null;
 
     try {
-      const parts = text.split(/(\$[^\$]+\$)/g);
+      let processedText = text;
+      const envPattern = /\\begin\{(pmatrix|cases|array|matrix|bmatrix|vmatrix)\}(.*?)\\end\{\1\}/gs;
+
+      processedText = processedText.replace(envPattern, (match, env, content) => {
+        // Process content inside environment
+        const processedContent = content
+          .replace(/\\/g, '\\\\') // Double backslashes
+          .replace(/\\\\\s*\\/g, '\\') // Fix over-escaped commands
+          .replace(/\s*\\\\\s*/g, ' \\\\ '); // Fix line breaks
+
+        return `\\begin{${env}}${processedContent}\\end{${env}}`;
+      });
+      const parts = processedText.split(/(\$[^\$]+\$)/g);
       return parts.map((part, index) => {
         if (part.startsWith('$') && part.endsWith('$')) {
           const latex = part.slice(1, -1).trim();
@@ -73,9 +85,10 @@ export default function renderContent(content) {
   };
 
   try {
+    const wrappedContent = `<div>${content}</div>`;
     return (
       <div className="prose prose-sm max-w-none">
-        {parse(content, options)}
+        {parse(wrappedContent, options)}
       </div>
     );
   } catch (error) {
