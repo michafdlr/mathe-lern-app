@@ -7,8 +7,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import renderContent from '@/utils/renderContent';
-import SolutionContent from './SolutionContent';
+
+import SingleQuestionContent from './SingleQuestionContent';
 
 function QuestionContent({content}) {
   const [isQuestionOpen, setIsQuestionOpen] = useState(false);
@@ -18,23 +18,17 @@ function QuestionContent({content}) {
       open={isQuestionOpen}
       onOpenChange={setIsQuestionOpen}
       >
-        <CollapsibleTrigger className='text-xl flex gap-1'>
-          {isQuestionOpen ? <><HiMiniChevronDown /> Aufgaben</>: <><HiMiniChevronRight /> Aufgaben</> }
+        <CollapsibleTrigger className='text-2xl flex gap-1 text-primary '>
+          {isQuestionOpen ? <><HiMiniChevronDown /> <span className='font-bold'>Aufgaben</span></>: <><HiMiniChevronRight /> Aufgaben</> }
         </CollapsibleTrigger>
-        <CollapsibleContent>
+        <CollapsibleContent className='px-2'>
           {
             content?.content?.excersises.map((excersise, index) => {
               return (
                 <div key={index}>
-                  <div className='grid-cols-5 justify-between items-center'>
-                    <h2 className='w-8 h-8 px-3 flex items-center justify-center rounded-full border flex-none border-black text-md bg-primary text-white'>
-                      {index+1}
-                    </h2>
-                    <div className="katex-styles text-justify col-span-4">
-                      {renderContent(excersise.question)}
-                    </div>
+                  <div className='flex gap-2 justify-between items-center'>
+                    <SingleQuestionContent excersise={excersise} index={index}/>
                   </div>
-                  <SolutionContent excersise={excersise}/>
                 </div>
               )
             })

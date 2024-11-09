@@ -49,6 +49,43 @@ export default function renderContent(content) {
       return node.data?.includes('$') ? processLatex(node.data) : node.data;
     }
 
+    // Handle <i> tags specifically
+    if (node.type === 'tag' && node.name === 'i') {
+      const latexContent = node.children.map(child => {
+        if (child.type === 'tag' && child.name === 'sub') {
+          return `_{${child.children.map(grandchild => grandchild.data).join('')}}`;
+        }
+        if (child.type === 'tag' && child.name === 'sup') {
+          return `^{${child.children.map(grandchild => grandchild.data).join('')}}`;
+        }
+        if (child.type === 'text') {
+          let text = child.data;
+          // Handle superscripts
+          text = text.replace(/\^(\([^\)]+\))/g, '^{$1}');
+          // Handle square roots
+          text = text.replace(/√\(([^)]+)\)/g, '\\sqrt{$1}');
+          return text;
+        }
+        return child.data;
+      }).join('');
+      return (
+        <InlineMath key={Math.random().toString(36).substring(2, 9)} math={`${latexContent}`} />
+      );
+    }
+
+    if (node.type === 'tag' && node.name === 'img') {
+      const [isBroken, setIsBroken] = useState(false);
+
+      const props = {
+        ...node.attribs,
+        key: Math.random().toString(36).substring(2, 9),
+        alt: node.attribs.alt || '',
+        onError: () => setIsBroken(true),
+      };
+
+      return !isBroken ? <img {...props} /> : null;
+    }
+
     // Handle element nodes
     if (node.type === 'tag') {
       const props = {

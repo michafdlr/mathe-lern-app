@@ -18,10 +18,10 @@ function SolutionContent({excersise}) {
     open={isAnswerOpen}
     onOpenChange={setIsAnswerOpen}
     >
-      <CollapsibleTrigger className='text-xl flex gap-1'>
+      <CollapsibleTrigger className='text-xl flex gap-1 text-secondary italic'>
         {isAnswerOpen ? <><HiMiniChevronDown /> Lösung</>: <><HiMiniChevronRight /> Lösung</> }
       </CollapsibleTrigger>
-      <CollapsibleContent>
+      <CollapsibleContent className='px-4 mt-1'>
         {renderContent(excersise.solution)}
       </CollapsibleContent>
     </Collapsible>

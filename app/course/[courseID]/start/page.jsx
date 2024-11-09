@@ -5,6 +5,9 @@ import { and, eq } from 'drizzle-orm';
 import React, { useEffect, useState } from 'react'
 import ChapterListCard from './_components/ChapterListCard';
 import ChapterContent from './_components/ChapterContent';
+import LoadingContent from './_components/LoadingContent';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 function CourseStart({ params }) {
   const [course, setCourse] = useState();
@@ -45,12 +48,7 @@ function CourseStart({ params }) {
 
   if (isLoading) {
     return (
-      <div className='flex gap-2'>
-        <div className='md:w-64 hidden h-screen shadow-sm border-r'></div>
-        <div className='text-4xl justify-center'>
-        Inhalt wird geladen...
-        </div>
-      </div>
+      <LoadingContent loading={isLoading}/>
     )
   }
 
@@ -73,9 +71,12 @@ function CourseStart({ params }) {
             </div>
           )
         })}
+        <Link href='/dashboard' className='flex items-center justify-center mt-4 hover:bg-primary hover:text-white m-4 rounded-md'>
+          Zurück zum Dashboard
+        </Link>
       </div>
       <div className='md:ml-64'>
-        <ChapterContent chapter={selectedChapter} content={chapterCont} />
+        {selectedChapter ? <ChapterContent chapter={selectedChapter} content={chapterCont} /> : <div className='flex text-3xl justify-center items-center p-10'>Wähle das Kapitel</div>}
       </div>
     </div>
   );
