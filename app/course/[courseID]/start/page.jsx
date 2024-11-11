@@ -76,7 +76,7 @@ function CourseStart({ params }) {
         </Link>
       </div>
       <div className='md:ml-64'>
-        {selectedChapter ? <ChapterContent chapter={selectedChapter} content={chapterCont} /> : <div className='flex text-3xl justify-center items-center p-10'>Wähle das Kapitel</div>}
+        {selectedChapter ? <ChapterContent chapter={selectedChapter} content={chapterCont} /> : <div className='flex text-3xl justify-center items-center p-10'>Wähle ein Kapitel</div>}
       </div>
     </div>
   );

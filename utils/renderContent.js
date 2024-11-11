@@ -23,6 +23,7 @@ export default function renderContent(content) {
 
         return `\\begin{${env}}${processedContent}\\end{${env}}`;
       });
+      processedText = processedText.replace(/√\(([^)]+)\)/g, '\\sqrt{$1}');
       const parts = processedText.split(/(\$[^\$]+\$)/g);
       return parts.map((part, index) => {
         if (part.startsWith('$') && part.endsWith('$')) {
@@ -60,14 +61,15 @@ export default function renderContent(content) {
         }
         if (child.type === 'text') {
           let text = child.data;
-          // Handle superscripts
-          text = text.replace(/\^(\([^\)]+\))/g, '^{$1}');
-          // Handle square roots
+
+          // Simple replacement of √(...) with \sqrt{...}
           text = text.replace(/√\(([^)]+)\)/g, '\\sqrt{$1}');
+
           return text;
         }
         return child.data;
       }).join('');
+
       return (
         <InlineMath key={Math.random().toString(36).substring(2, 9)} math={`${latexContent}`} />
       );

@@ -27,7 +27,7 @@ function CourseCard({ course, refreshData }) {
   }
 
   return (
-    <div className='border-2 rounded-lg p-2 shadow-sm'>
+    <div className='border-2 rounded-lg p-2 shadow-sm hover:scale-105 transition-all duration-300'>
       <Link href={'/course/'+course?.courseID}>
         <Image
         src={course?.courseBanner || "/placeholder.png"} //5:00:52

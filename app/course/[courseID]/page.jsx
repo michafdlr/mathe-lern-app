@@ -39,7 +39,7 @@ function Course({ params }) {
         </>
         :
         <>
-          <BasicCourseInfo course={course} edit={false} />
+          <BasicCourseInfo course={course} edit={false} dashboardBtn={true}/>
           <CourseDetail course={course} />
           <ChaptersList course={course} edit={false}/>
         </>

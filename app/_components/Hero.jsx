@@ -1,7 +1,12 @@
+'use client'
 import { Button } from '@/components/ui/button'
+import { useUser } from '@clerk/nextjs';
+import Link from 'next/link'
 import React from 'react'
 
+
 function Hero() {
+  const { isLoaded, user } = useUser();
   return (
     <section className="bg-gray-50">
       <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:items-center">
@@ -23,7 +28,17 @@ function Hero() {
             >
               Beginne jetzt
             </a> */}
-            <Button>Beginne jetzt</Button>
+            {isLoaded && (
+              user ? (
+                <Link href="/dashboard">
+                  <Button>Zum Dashboard</Button>
+                </Link>
+              ) : (
+                <Link href="/sign-in">
+                  <Button>Beginne jetzt</Button>
+                </Link>
+              )
+            )}
           </div>
         </div>
       </div>
