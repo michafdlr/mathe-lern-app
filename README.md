@@ -107,4 +107,6 @@ Contributions are what make the open-source community such an amazing place to l
 
 This project is open-source and available under the MIT License.
 
-Note: This project is intended as a learning exercise in Next.js and React development. While it may not be a production-ready application, it demonstrates foundational concepts and practices in modern web development.
+## Note
+
+This project is intended as a learning exercise in Next.js and React development. While it may not be a production-ready application or has some (hopefully minor) issues, it demonstrates foundational concepts and practices in modern web development.
