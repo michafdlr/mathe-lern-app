@@ -60,7 +60,8 @@ To get a local copy up and running, follow these simple steps.
 3. **Install Dependencies**
 
    ```sh
-   npm install # or yarn install
+   npm install
+   # or yarn install
    ```
 
 4. **Set Up Environment Variables**
@@ -74,7 +75,8 @@ To get a local copy up and running, follow these simple steps.
 5. **Run the Development Server**
 
    ```sh
-   npm run dev # or yarn dev
+   npm run dev
+   # or yarn dev
    ```
 
 6. **Visit the App**
