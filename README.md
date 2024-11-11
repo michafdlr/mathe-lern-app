@@ -59,24 +59,26 @@ To get a local copy up and running, follow these simple steps.
 
 3. **Install Dependencies**
 
-   ```sh
+   ```bash
    npm install
-   # or yarn install
+   # or
+   yarn install
    ```
 
 4. **Set Up Environment Variables**
 
    Create a `.env.local` file in the root directory and add your environment variables. For example:
-   ```sh
+   ```bash
    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
    CLERK_SECRET_KEY=your_clerk_secret_key
    ```
 
 5. **Run the Development Server**
 
-   ```sh
+   ```bash
    npm run dev
-   # or yarn dev
+   # or
+   yarn dev
    ```
 
 6. **Visit the App**
